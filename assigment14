@@ -1,0 +1,99 @@
+Question 18: Create a clock. What will be your approach to solving this problem statement?
+
+Hint 1:- Use flutter inbuilt library
+
+Hint 2:- Use only a timer.
+
+Hint 3:- Clock runs only for 1 sec.
+source code:
+import 'dart:async'; // For Timer
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const MyClockApp());
+}
+
+class MyClockApp extends StatelessWidget {
+  const MyClockApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Clock',
+      theme: ThemeData(primarySwatch: Colors.blue),
+      home: const ClockScreen(),
+      debugShowCheckedModeBanner: false,
+    );
+  }
+}
+
+class ClockScreen extends StatefulWidget {
+  const ClockScreen({super.key});
+
+  @override
+  State<ClockScreen> createState() => _ClockScreenState();
+}
+
+class _ClockScreenState extends State<ClockScreen> {
+  late DateTime _currentTime; // Stores current time
+  Timer? _timer; // Timer reference
+
+  @override
+  void initState() {
+    super.initState();
+    _currentTime = DateTime.now(); // Initialize with current system time
+
+    // Timer that updates every 1 second
+    _timer = Timer.periodic(const Duration(seconds: 1), (Timer timer) {
+      setState(() {
+        _currentTime = DateTime.now(); // Update time every second
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel(); // Cancel timer when widget is disposed
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // Format time manually without using external packages
+    String hours = _currentTime.hour.toString().padLeft(2, '0');
+    String minutes = _currentTime.minute.toString().padLeft(2, '0');
+    String seconds = _currentTime.second.toString().padLeft(2, '0');
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('1-Second Flutter Clock'),
+        centerTitle: true,
+      ),
+      body: Center(
+        child: Container(
+          padding: const EdgeInsets.all(40),
+          decoration: BoxDecoration(
+            color: Colors.blue.shade50,
+            borderRadius: BorderRadius.circular(20),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.blue.shade100,
+                blurRadius: 10,
+                offset: const Offset(0, 5),
+              ),
+            ],
+          ),
+          child: Text(
+            "$hours:$minutes:$seconds",
+            style: const TextStyle(
+              fontSize: 60,
+              fontWeight: FontWeight.bold,
+              fontFamily: 'Courier',
+              color: Colors.black87,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
