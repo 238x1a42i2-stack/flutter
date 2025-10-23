@@ -1,0 +1,120 @@
+Question 16: How to Show this result based on the given details:
+
+True-answers=6
+Wrong -answers=0
+Total-questions=6
+source code:
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const QuizResultApp());
+}
+
+class QuizResultApp extends StatelessWidget {
+  const QuizResultApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Quiz Result',
+      theme: ThemeData(primarySwatch: Colors.blue),
+      home: const ResultPage(),
+      debugShowCheckedModeBanner: false,
+    );
+  }
+}
+
+class ResultPage extends StatelessWidget {
+  const ResultPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    // Given data
+    int trueAnswers = 6;
+    int wrongAnswers = 0;
+    int totalQuestions = 6;
+
+    // Calculate score
+    double score = (trueAnswers / totalQuestions) * 100;
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Quiz Result'),
+        centerTitle: true,
+      ),
+      body: Center(
+        child: Card(
+          elevation: 5,
+          margin: const EdgeInsets.all(20),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text(
+                  'Result Summary',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const Divider(height: 30, thickness: 2),
+                ResultRow(label: 'Total Questions', value: totalQuestions.toString()),
+                ResultRow(label: 'Correct Answers', value: trueAnswers.toString()),
+                ResultRow(label: 'Wrong Answers', value: wrongAnswers.toString()),
+                const SizedBox(height: 20),
+                Text(
+                  'Score: ${score.toStringAsFixed(0)}%',
+                  style: TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                    color: score == 100 ? Colors.green : Colors.orange,
+                  ),
+                ),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    // Example action: Restart or exit
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Congratulations! Perfect Score!')),
+                    );
+                  },
+                  child: const Text('OK'),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ResultRow extends StatelessWidget {
+  final String label;
+  final String value;
+
+  const ResultRow({super.key, required this.label, required this.value});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 6.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            label,
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+          ),
+          Text(
+            value,
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+        ],
+      ),
+    );
+  }
+}
