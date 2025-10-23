@@ -1,0 +1,54 @@
+Question 17: Show the start and end date in the date picker. But the end date should be 29 days ago from the start date. What will be your approach to getting this problem statement?
+
+
+Hint 1:- Use the date picker library for selecting the start and end date.
+
+Hint 2:- Add the logic which is end data should be 29 days ago from the start date.
+
+sourcecode:
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart'; // For formatting dates
+
+void main() {
+  runApp(const DateRangeApp());
+}
+
+class DateRangeApp extends StatelessWidget {
+  const DateRangeApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Date Picker Example',
+      theme: ThemeData(primarySwatch: Colors.blue),
+      home: const DatePickerPage(),
+      debugShowCheckedModeBanner: false,
+    );
+  }
+}
+
+class DatePickerPage extends StatefulWidget {
+  const DatePickerPage({super.key});
+
+  @override
+  State<DatePickerPage> createState() => _DatePickerPageState();
+}
+
+class _DatePickerPageState extends State<DatePickerPage> {
+  DateTime? startDate;
+  DateTime? endDate;
+
+  final DateFormat formatter = DateFormat('dd MMM yyyy');
+
+  Future<void> _selectStartDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: startDate ?? DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime.now(),
+    );
+
+    if (picked != null) {
+      setState(() {
+        startDate = picked;
+        // endDate should be 29 days ago from the start
