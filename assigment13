@@ -1,0 +1,26 @@
+Question 18: Create a clock. What will be your approach to solving this problem statement?
+
+Hint 1:- Use flutter inbuilt library
+
+Hint 2:- Use only a timer.
+
+Hint 3:- Clock runs only for 1 sec.
+source code:
+import 'dart:async';
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart'; // For formatting the time
+
+void main() {
+  runApp(const MyClockApp());
+}
+
+class MyClockApp extends StatelessWidget {
+  const MyClockApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Clock',
+      theme: ThemeData(primarySwatch: Colors.blue),
+      home: const ClockScreen(),
+      debugShowCheck
